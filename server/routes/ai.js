@@ -6,7 +6,7 @@ dotenv.config();
 
 const router = express.Router();
 
-// GET route for testing
+
 router.get("/", async (req, res) => {
   res.status(200).json({ message: "Hello from AI!" });
 });
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
 
-    // Validate request body
+
     if (!req.body || !req.body.prompt) {
       console.log("Invalid or missing request body:", req.body);
       return res.status(400).json({ error: "Prompt is required in the request body" });
@@ -23,14 +23,12 @@ router.post("/", async (req, res) => {
 
     const { prompt } = req.body;
 
-    // Set up timeout for Hugging Face API call
     const controller = new AbortController();
     const timeoutId = setTimeout(() => {
       console.log("Hugging Face API request timed out");
       controller.abort();
-    }, 30000); // 30s timeout
+    }, 60000); 
 
-    // Call Hugging Face API (Stable Diffusion XL)
     const response = await fetch(
       "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0",
       {
@@ -52,14 +50,12 @@ router.post("/", async (req, res) => {
 
     clearTimeout(timeoutId);
 
-    // Check for API errors
     if (!response.ok) {
       const error = await response.text();
       console.error("Hugging Face API Error:", error);
       return res.status(500).json({ error: `Hugging Face API Error: ${error}` });
     }
 
-    // Process image response
     const arrayBuffer = await response.arrayBuffer();
     if (arrayBuffer.byteLength === 0) {
       console.error("Empty response from Hugging Face API");

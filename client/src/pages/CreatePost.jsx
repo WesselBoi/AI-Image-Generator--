@@ -16,20 +16,6 @@ const CreatePost = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Add logic to share the image with the community (e.g., save to database)
-    setLoading(true);
-    try {
-      // Placeholder for sharing logic
-      console.log("Sharing image:", form);
-      alert("Image shared successfully!");
-      navigate("/");
-    } catch (error) {
-      console.error("Share Error:", error);
-      alert("Error sharing image");
-    } finally {
-      setLoading(false);
-    }
   };
 
   const generateImg = async () => {
@@ -44,7 +30,7 @@ const CreatePost = () => {
       const timeoutId = setTimeout(() => {
         console.log("Server request timed out");
         controller.abort();
-      }, 30000); // 30s timeout
+      }, 60000); 
 
       const response = await fetch("http://localhost:8080/api/ai", {
         method: "POST",
@@ -124,6 +110,7 @@ const CreatePost = () => {
             {generatingImg && (
               <div className="absolute inset-0 z-0 flex items-center justify-center bg-[rgba(256,256,256,0.5)]">
                 <Loader />
+                <p className="font-bold">This may take a minute...</p>
               </div>
             )}
           </div>
