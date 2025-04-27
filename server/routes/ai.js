@@ -6,7 +6,6 @@ dotenv.config();
 
 const router = express.Router();
 
-
 router.get("/", async (req, res) => {
   res.status(200).json({ message: "Hello from AI!" });
 });
@@ -14,8 +13,6 @@ router.get("/", async (req, res) => {
 // POST route for image generation
 router.post("/", async (req, res) => {
   try {
-
-
     if (!req.body || !req.body.prompt) {
       console.log("Invalid or missing request body:", req.body);
       return res.status(400).json({ error: "Prompt is required in the request body" });
@@ -27,7 +24,9 @@ router.post("/", async (req, res) => {
     const timeoutId = setTimeout(() => {
       console.log("Hugging Face API request timed out");
       controller.abort();
-    }, 60000); 
+    }, 90000);
+
+    const randomSeed = Math.floor(Math.random() * 1000000);
 
     const response = await fetch(
       "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0",
@@ -40,8 +39,9 @@ router.post("/", async (req, res) => {
         body: JSON.stringify({
           inputs: prompt,
           parameters: {
-            num_inference_steps: 50,
+            num_inference_steps: 25,
             guidance_scale: 7.5,
+            seed: randomSeed, //random seed for variability
           },
         }),
         signal: controller.signal,

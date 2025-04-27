@@ -16,6 +16,31 @@ const CreatePost = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if(form.prompt && form.photo){
+      setLoading(true);
+
+      try {
+        const response = await fetch("http://localhost:8080/api/post" , {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+        await response.json();
+        navigate("/");
+      } catch (err) {
+        alert(err);
+      } finally{
+        setLoading(false);
+      }
+    }
+
+    else{
+      alert("Please generate an image with a prompt");
+    }
   };
 
   const generateImg = async () => {
@@ -30,7 +55,7 @@ const CreatePost = () => {
       const timeoutId = setTimeout(() => {
         console.log("Server request timed out");
         controller.abort();
-      }, 60000); 
+      }, 90000); 
 
       const response = await fetch("http://localhost:8080/api/ai", {
         method: "POST",
@@ -107,7 +132,7 @@ const CreatePost = () => {
               />
             )}
             {generatingImg && (
-              <div className="absolute inset-0 z-0 flex items-center justify-center bg-[rgba(256,256,256,0.5)]">
+              <div className="absolute inset-0 z-0 flex items-center justify-center bg-[rgba(165,165,165,0.67)]">
                 <Loader />
                 <p className="font-bold">This may take a minute...</p>
               </div>
