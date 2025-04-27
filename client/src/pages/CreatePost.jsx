@@ -108,7 +108,7 @@ const CreatePost = () => {
       )}
 
       <form 
-        className="mt-6 max-w-3xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg" 
+        className="mt-6 max-w-3xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg text-gray-900 dark:text-white" 
         onSubmit={handleSubmit}
       >
         <div className="flex flex-col gap-6">
@@ -135,7 +135,7 @@ const CreatePost = () => {
             }}
           />
           
-          <div className="relative bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl overflow-hidden transition-all duration-300 aspect-square flex justify-center items-center">
+          <div className="relative bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl overflow-hidden transition-all duration-300 aspect-square flex justify-center items-center">
             {form.photo ? (
               <img
                 src={form.photo}
@@ -144,7 +144,7 @@ const CreatePost = () => {
               />
             ) : (
               <div className="flex flex-col items-center justify-center p-6 text-center">
-                <Image size={80} className="text-gray-400 mb-4" />
+                <Image size={80} className="text-gray-400 dark:text-gray-500 mb-4" />
                 <p className="text-gray-500 dark:text-gray-400 max-w-xs">
                   Your creation will appear here. Enter a prompt and click "Generate" to create an image.
                 </p>
