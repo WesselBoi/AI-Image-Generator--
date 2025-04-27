@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Wand2, Share2, AlertCircle, Image } from "lucide-react";
 
 import { preview } from "../../assets";
 import { getRandomPrompt } from "../utils/index";
@@ -14,15 +15,17 @@ const CreatePost = () => {
   });
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
-    if(form.prompt && form.photo){
+    if (form.prompt && form.photo) {
       setLoading(true);
 
       try {
-        const response = await fetch("http://localhost:8080/api/post" , {
+        const response = await fetch("http://localhost:8080/api/post", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -32,30 +35,30 @@ const CreatePost = () => {
         await response.json();
         navigate("/");
       } catch (err) {
-        alert(err);
-      } finally{
+        setError("Failed to share image. Please try again.");
+        console.error(err);
+      } finally {
         setLoading(false);
       }
-    }
-
-    else{
-      alert("Please generate an image with a prompt");
+    } else {
+      setError("Please generate an image with a prompt first");
     }
   };
 
   const generateImg = async () => {
     if (!form.prompt) {
-      alert("Please enter a prompt");
+      setError("Please enter a prompt first");
       return;
     }
 
+    setError("");
     try {
       setGeneratingImg(true);
       const controller = new AbortController();
       const timeoutId = setTimeout(() => {
         console.log("Server request timed out");
         controller.abort();
-      }, 90000); 
+      }, 90000);
 
       const response = await fetch("http://localhost:8080/api/ai", {
         method: "POST",
@@ -81,7 +84,7 @@ const CreatePost = () => {
       setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
     } catch (error) {
       console.error("GenerateImg Error:", error.message);
-      alert(`Error generating image: ${error.message}`);
+      setError(`Error generating image: ${error.message}`);
     } finally {
       setGeneratingImg(false);
     }
@@ -89,13 +92,26 @@ const CreatePost = () => {
 
   return (
     <section className="max-w-7xl mx-auto">
-      <div>
-        <p className="mt-2 text-[16px] max-w-[500px]">
-          Create imaginative and visually stunning images
+      <div className="bg-gradient-to-r from-purple-700 to-indigo-700 p-8 rounded-xl shadow-lg mb-10 text-white text-center">
+        <h1 className="text-3xl font-bold mb-3">Create New Image</h1>
+        <p className="text-lg text-purple-100 max-w-xl mx-auto">
+          Transform your ideas into stunning AI-generated artwork. Enter a prompt, 
+          generate your image, and share it with the community.
         </p>
       </div>
-      <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-5">
+
+      {error && (
+        <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex items-center gap-2">
+          <AlertCircle size={20} />
+          <p>{error}</p>
+        </div>
+      )}
+
+      <form 
+        className="mt-6 max-w-3xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg" 
+        onSubmit={handleSubmit}
+      >
+        <div className="flex flex-col gap-6">
           <FormField
             labelName="Your name"
             type="text"
@@ -104,6 +120,7 @@ const CreatePost = () => {
             value={form.name}
             handleChange={(e) => setForm({ ...form, name: e.target.value })}
           />
+          
           <FormField
             labelName="Prompt"
             type="text"
@@ -117,7 +134,8 @@ const CreatePost = () => {
               setForm({ ...form, prompt: randomPrompt });
             }}
           />
-          <div className="relative  bg-[#dddbe0] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-84 p-3 h-84 flex justify-center items-center">
+          
+          <div className="relative bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl overflow-hidden transition-all duration-300 aspect-square flex justify-center items-center">
             {form.photo ? (
               <img
                 src={form.photo}
@@ -125,43 +143,59 @@ const CreatePost = () => {
                 className="w-full h-full object-contain"
               />
             ) : (
-              <img
-                src={preview}
-                alt="placeholder"
-                className="w-9/12 h-9/12 object-contain opacity-40"
-              />
+              <div className="flex flex-col items-center justify-center p-6 text-center">
+                <Image size={80} className="text-gray-400 mb-4" />
+                <p className="text-gray-500 dark:text-gray-400 max-w-xs">
+                  Your creation will appear here. Enter a prompt and click "Generate" to create an image.
+                </p>
+              </div>
             )}
+            
             {generatingImg && (
-              <div className="absolute inset-0 z-0 flex items-center justify-center bg-[rgba(165,165,165,0.67)]">
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-900/70 backdrop-blur-sm">
                 <Loader />
-                <p className="font-bold">This may take a minute...</p>
+                <p className="font-bold text-white mt-4 animate-pulse">
+                  Creating your masterpiece...
+                </p>
+                <p className="text-gray-300 text-sm mt-2 max-w-xs text-center">
+                  This may take up to a minute depending on the complexity of your prompt
+                </p>
               </div>
             )}
           </div>
-        </div>
-
-        <div className="mt-5 flex gap-5">
-          <button
-            type="button"
-            onClick={generateImg}
-            className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-            disabled={generatingImg}
-          >
-            {generatingImg ? "Generating..." : "Generate"}
-          </button>
-        </div>
-
-        <div className="mt-10">
-          <p className="mt-2 text-[14px]">
-            Once you have created the image you want, you can share it in the community
-          </p>
-          <button
-            type="submit"
-            className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-            disabled={loading || !form.photo}
-          >
-            {loading ? "Sharing..." : "Share with the community"}
-          </button>
+          
+          <div className="flex flex-col md:flex-row gap-4 mt-2">
+            <button
+              type="button"
+              onClick={generateImg}
+              className="text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 font-medium rounded-lg text-sm px-6 py-3 text-center flex-1 flex items-center justify-center gap-2 shadow-md transition-all duration-200"
+              disabled={generatingImg}
+            >
+              <Wand2 size={18} />
+              {generatingImg ? "Generating..." : "Generate Image"}
+            </button>
+            
+            <button
+              type="submit"
+              className={`font-medium rounded-lg text-sm px-6 py-3 text-center flex-1 flex items-center justify-center gap-2 shadow-md transition-all duration-200 ${
+                form.photo
+                  ? "text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+              disabled={loading || !form.photo}
+            >
+              <Share2 size={18} />
+              {loading ? "Sharing..." : "Share with Community"}
+            </button>
+          </div>
+          
+          {form.photo && (
+            <div className="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg mt-2">
+              <p className="text-indigo-700 dark:text-indigo-300 text-sm">
+                Great job! Your image is ready to be shared with the community. Click the "Share" button to showcase your creation.
+              </p>
+            </div>
+          )}
         </div>
       </form>
     </section>
