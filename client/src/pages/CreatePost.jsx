@@ -168,7 +168,7 @@ const CreatePost = () => {
             <button
               type="button"
               onClick={generateImg}
-              className="text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 font-medium rounded-lg text-sm px-6 py-3 text-center flex-1 flex items-center justify-center gap-2 shadow-md transition-all duration-200"
+              className="text-white cursor-pointer bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 font-medium rounded-lg text-sm px-6 py-3 text-center flex-1 flex items-center justify-center gap-2 shadow-md transition-all duration-200"
               disabled={generatingImg}
             >
               <Wand2 size={18} />
@@ -179,7 +179,7 @@ const CreatePost = () => {
               type="submit"
               className={`font-medium rounded-lg text-sm px-6 py-3 text-center flex-1 flex items-center justify-center gap-2 shadow-md transition-all duration-200 ${
                 form.photo
-                  ? "text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
+                  ? "text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 cursor-pointer"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
               disabled={loading || !form.photo}

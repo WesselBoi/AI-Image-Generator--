@@ -23,7 +23,7 @@ function FormField({
           <button
             type="button"
             onClick={handleSurpriseMe}
-            className="font-semibold text-xs bg-[#ececf1] py-1 px-2 rounded-[5px] text-black"
+            className="font-semibold text-xs bg-[#ececf1] py-1 px-2 rounded-[5px] text-black cursor-pointer hover:bg-[#d0cfcf] transition-all duration-200"
           >
             Surprise Me
           </button>

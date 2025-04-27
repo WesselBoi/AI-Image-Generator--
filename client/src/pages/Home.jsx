@@ -117,7 +117,7 @@ const Home = () => {
                 </p>
               </div>
             )}
-            <div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-6 w-full">
+            <div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-6 w-full max-h-[80vh] overflow-y-auto px-4">
               {searchText ? (
                 <RenderCards
                   data={searchedResults}
