@@ -65,8 +65,7 @@ const CreatePost = () => {
   return (
     <section className="max-w-7xl mx-auto">
       <div>
-        <h1 className="font-extrabold text-[#222328]">Create</h1>
-        <p className="mt-2 text-[#666e75] text-[16px] max-w-[500px]">
+        <p className="mt-2 text-[16px] max-w-[500px]">
           Create imaginative and visually stunning images
         </p>
       </div>
@@ -93,7 +92,7 @@ const CreatePost = () => {
               setForm({ ...form, prompt: randomPrompt });
             }}
           />
-          <div className="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-64 p-3 h-64 flex justify-center items-center">
+          <div className="relative  bg-[#dddbe0] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-84 p-3 h-84 flex justify-center items-center">
             {form.photo ? (
               <img
                 src={form.photo}
@@ -128,7 +127,7 @@ const CreatePost = () => {
         </div>
 
         <div className="mt-10">
-          <p className="mt-2 text-[#666e75] text-[14px]">
+          <p className="mt-2 text-[14px]">
             Once you have created the image you want, you can share it in the community
           </p>
           <button
