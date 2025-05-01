@@ -25,7 +25,7 @@ const CreatePost = () => {
       setLoading(true);
 
       try {
-        const response = await fetch("http://localhost:8080/api/post", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/post`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -60,7 +60,7 @@ const CreatePost = () => {
         controller.abort();
       }, 90000);
 
-      const response = await fetch("http://localhost:8080/api/ai", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/ai`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

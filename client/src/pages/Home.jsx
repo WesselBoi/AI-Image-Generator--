@@ -26,7 +26,7 @@ const Home = () => {
   async function fetchPosts() {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/api/post", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/post`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
