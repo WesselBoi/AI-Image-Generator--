@@ -14,7 +14,7 @@ A MERN stack web application for generating AI-powered images using the Pollinat
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Image Storage**: Cloudinary
-- **AI Model**: Hugging Face Stable Diffusion API
+- **AI Model**: Pollination API
 
 ## Prerequisites
 - Node.js (v16+)
