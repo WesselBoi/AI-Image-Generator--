@@ -18,7 +18,20 @@ connectToMongoDb(mongoUrl)
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  'https://your-frontend-app.onrender.com', 
+  'http://localhost:5173' 
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+}));
+
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb', extended: true}));
 
