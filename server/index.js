@@ -19,7 +19,7 @@ connectToMongoDb(mongoUrl)
 const app = express();
 
 const allowedOrigins = [
-  'https://your-frontend-app.onrender.com', 
+  'https://ai-image-generator-8r3r.onrender.com', 
   'http://localhost:5173' 
 ];
 
