@@ -101,6 +101,7 @@ const Home = () => {
           <div className="flex flex-col justify-center items-center min-h-[400px]">
             <Loader />
             <p className="mt-4 text-indigo-600 animate-pulse">Loading creative works...</p>
+            <p className="mt-4 text-indigo-600 animate-pulse">First load may be slow — server waking up</p>
           </div>
         ) : (
           <>
