@@ -1,9 +1,9 @@
 # AI Image Generator
 
-A MERN stack web application for generating AI-powered images using the Pollination API (used Hugging Face Stable Diffusion API earlier), with Cloudinary for image storage and React Router for navigation.
+A MERN stack web application for generating AI-powered images using the DropClip API (used Hugging Face Stable Diffusion API earlier), with Cloudinary for image storage and React Router for navigation.
 
 ## Features
-- Generate images from text prompts via Hugging Face Stable Diffusion API
+- Generate images from text prompts via DropClip API
 - Store and manage images on Cloudinary
 - Download Images
 - Responsive UI with client-side routing
@@ -20,5 +20,5 @@ A MERN stack web application for generating AI-powered images using the Pollinat
 - Node.js (v16+)
 - MongoDB (local or Atlas)
 - Cloudinary account
-- Hugging Face API key
+- DropClip API key
 
